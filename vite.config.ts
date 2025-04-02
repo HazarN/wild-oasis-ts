@@ -17,6 +17,15 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@app': pathResolve('src'),
+        '@data/*': ['./data/*'],
+        '@features/*': ['./features/*'],
+        '@hooks/*': ['./hooks/*'],
+        '@modesl/*': ['./models/*'],
+        '@pages/*': ['./pages/*'],
+        '@services/*': ['./services/*'],
+        '@styles/*': ['./styles/*'],
+        '@ui/*': ['./ui/*'],
+        '@utils/*': ['./utils/*'],
       },
     },
   };
