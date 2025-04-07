@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from '@ui/Button';
 import Heading from '@ui/Heading';
 import Input from '@ui/Input';
+import Row from '@ui/Row';
 
 const StyledApp = styled.main`
   padding: 20px;
@@ -11,12 +12,27 @@ const StyledApp = styled.main`
 function App() {
   return (
     <StyledApp>
-      <Heading as='h1'>Hello World</Heading>
+      <Row>
+        <Row type='horizontal'>
+          <Heading as='h1'>The Wild Oasis</Heading>
 
-      <Button>Check in</Button>
-      <Button>Check out</Button>
+          <div>
+            <Heading as='h2'>Check in and out</Heading>
 
-      <Input type='number' placeholder='Number of guests' />
+            <Button>Check in</Button>
+            <Button variant='secondary'>Check out</Button>
+          </div>
+        </Row>
+
+        <Row>
+          <Heading as='h3'>Form</Heading>
+
+          <form>
+            <Input type='number' placeholder='Number of guests' />
+            <Input type='number' placeholder='Number of guests' />
+          </form>
+        </Row>
+      </Row>
     </StyledApp>
   );
 }
