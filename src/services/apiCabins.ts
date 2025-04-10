@@ -1,6 +1,6 @@
 import supabase from '@services/supabase';
 
-import ICabin from '@modesl/ICabin';
+import ICabin from '@models/ICabin';
 
 export async function getCabins(): Promise<ICabin[] | null> {
   const { data: cabins, error } = await supabase.from('cabins').select('*');
@@ -11,6 +11,17 @@ export async function getCabins(): Promise<ICabin[] | null> {
   }
 
   return cabins as ICabin[];
+}
+
+export async function createCabin(newCabin: Partial<ICabin>) {
+  const { data: cabin, error } = await supabase.from('cabins').insert([newCabin]);
+
+  if (error) {
+    console.error(error);
+    throw new Error('Cabin could not be created');
+  }
+
+  return cabin;
 }
 
 export async function deleteCabinById(id: number) {
