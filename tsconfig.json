@@ -27,7 +27,7 @@
       "@data/*": ["./data/*"],
       "@features/*": ["./features/*"],
       "@hooks/*": ["./hooks/*"],
-      "@modesl/*": ["./models/*"],
+      "@models/*": ["./models/*"],
       "@pages/*": ["./pages/*"],
       "@services/*": ["./services/*"],
       "@styles/*": ["./styles/*"],
