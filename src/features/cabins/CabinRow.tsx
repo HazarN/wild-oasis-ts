@@ -1,12 +1,14 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import styled from 'styled-components';
+
+import { deleteCabinById } from '@services/apiCabins';
 
 import { formatCurrency } from '@utils/helpers';
 
 import ICabin from '@models/ICabin';
-import { deleteCabinById } from '@services/apiCabins';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import Button from '@ui/Button';
-import toast from 'react-hot-toast';
 
 const TableRow = styled.div`
   display: grid;
