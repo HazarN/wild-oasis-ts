@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 import { createCabin } from '@services/apiCabins';
 
-import ICabin from '@models/ICabin';
+import { ICabinForm } from '@models/ICabin';
 
 import Button from '@ui/Button';
 import FileInput from '@ui/FileInput';
@@ -14,7 +14,7 @@ import Input from '@ui/Input';
 import Textarea from '@ui/Textarea';
 
 function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+  const { register, handleSubmit, reset, getValues, formState } = useForm<ICabinForm>();
   const { errors } = formState;
 
   const queryClient = useQueryClient();
@@ -29,8 +29,7 @@ function CreateCabinForm() {
     onError: (err: Error) => toast.error(err.message),
   });
 
-  const submitCallback = (data: Partial<ICabin>) => mutate(data);
-
+  const submitCallback = (data: ICabinForm) => mutate({ ...data, image: data?.image[0] });
   return (
     <Form onSubmit={handleSubmit(submitCallback)}>
       <FormRow label='Cabin name' error={errors?.name?.message}>
@@ -83,8 +82,7 @@ function CreateCabinForm() {
           {...register('discount', {
             required: 'This field is required',
             validate: (value) =>
-              value <= parseInt(getValues().regularPrice) ||
-              'Discount should be less than regular price',
+              value <= getValues().regularPrice || 'Discount should be less than regular price',
           })}
         />
       </FormRow>
@@ -99,7 +97,14 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label='Cabin photo'>
-        <FileInput id='image' disabled={isCreating} accept='image/*' />
+        <FileInput
+          id='image'
+          accept='image/*'
+          disabled={isCreating}
+          {...register('image', {
+            required: 'This field is required',
+          })}
+        />
       </FormRow>
 
       <FormRow>
