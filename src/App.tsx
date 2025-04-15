@@ -2,6 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import { MINUTE } from '@models/constants';
+
 import Account from '@pages/Account';
 import Bookings from '@pages/Bookings';
 import Cabins from '@pages/Cabins';
@@ -11,7 +13,6 @@ import PageNotFound from '@pages/PageNotFound';
 import Settings from '@pages/Settings';
 import Users from '@pages/Users';
 
-import { MINUTE } from '@models/constants';
 import AppLayout from '@ui/AppLayout';
 import Notification from '@ui/Notification';
 

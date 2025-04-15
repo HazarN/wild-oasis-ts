@@ -1,5 +1,5 @@
 export default interface ICabin {
-  id: number;
+  id: number | undefined;
   name: string;
   description: string;
   image: File;
@@ -8,4 +8,4 @@ export default interface ICabin {
   discount: number;
 }
 
-export type ICabinForm = Omit<ICabin, 'id' | 'image'> & { image: FileList };
+export type ICabinForm = Omit<ICabin, 'image'> & { image: FileList };

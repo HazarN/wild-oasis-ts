@@ -13,8 +13,16 @@ import FormRow from '@ui/FormRow';
 import Input from '@ui/Input';
 import Textarea from '@ui/Textarea';
 
-function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm<ICabinForm>();
+type Props = {
+  cabinToEdit: Partial<ICabinForm>;
+};
+function CreateCabinForm({ cabinToEdit }: Props) {
+  const { id: editId, ...editValues } = getInitialValues(cabinToEdit);
+  const isEditSession = !!editId;
+
+  const { register, handleSubmit, reset, getValues, formState } = useForm<ICabinForm>({
+    defaultValues: editValues,
+  });
   const { errors } = formState;
 
   const queryClient = useQueryClient();
@@ -102,7 +110,7 @@ function CreateCabinForm() {
           accept='image/*'
           disabled={isCreating}
           {...register('image', {
-            required: 'This field is required',
+            required: isEditSession ? false : 'This field is required',
           })}
         />
       </FormRow>
@@ -113,11 +121,25 @@ function CreateCabinForm() {
             Cancel
           </Button>
 
-          <Button disabled={isCreating}>Add cabin</Button>
+          <Button disabled={isCreating}>{isEditSession ? 'Edit' : 'Add'} cabin</Button>
         </>
       </FormRow>
     </Form>
   );
 }
+
+const getInitialValues = (cabinToEdit: Partial<ICabinForm>): ICabinForm => {
+  if (cabinToEdit && 'id' in cabinToEdit) return cabinToEdit as ICabinForm;
+
+  return {
+    id: undefined,
+    name: '',
+    description: '',
+    image: {} as FileList,
+    maxCapacity: 0,
+    regularPrice: 0,
+    discount: 0,
+  };
+};
 
 export default CreateCabinForm;

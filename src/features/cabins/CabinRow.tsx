@@ -6,9 +6,10 @@ import { deleteCabinById } from '@services/apiCabins';
 
 import { formatCurrency } from '@utils/helpers';
 
-import ICabin from '@models/ICabin';
-
+import { ICabinForm } from '@models/ICabin';
 import Button from '@ui/Button';
+import { useState } from 'react';
+import CreateCabinForm from './CreateCabinForm';
 
 const TableRow = styled.div`
   display: grid;
@@ -50,9 +51,11 @@ const Discount = styled.div`
 `;
 
 type Props = {
-  cabin: ICabin;
+  cabin: ICabinForm;
 };
 function CabinRow({ cabin }: Props) {
+  const [showForm, setShowForm] = useState(false);
+
   const queryClient = useQueryClient();
   const { id: cabinId, image, discount, maxCapacity, regularPrice, name } = cabin;
 
@@ -69,17 +72,32 @@ function CabinRow({ cabin }: Props) {
   });
 
   return (
-    <TableRow role='row'>
-      <Img src={image} alt='Cabin image' />
-      <Cabin>{name}</Cabin>
-      <div>Fits up to {maxCapacity} guests</div>
-      <Price>{formatCurrency(regularPrice)}</Price>
-      <Discount>{formatCurrency(discount)}</Discount>
+    <>
+      <TableRow role='row'>
+        <Img src={image as unknown as string} alt='Cabin image' />
+        <Cabin>{name}</Cabin>
+        <div>Fits up to {maxCapacity} guests</div>
+        <Price>{formatCurrency(regularPrice)}</Price>
+        <Discount>{formatCurrency(discount)}</Discount>
 
-      <Button variant='secondary' onClick={() => mutate(cabinId)} disabled={isDeleting}>
-        Delete
-      </Button>
-    </TableRow>
+        <div>
+          <Button variant='secondary' size='small' onClick={() => setShowForm((s) => !s)}>
+            Edit
+          </Button>
+
+          <Button
+            variant='secondary'
+            size='small'
+            onClick={() => mutate(cabinId as number)}
+            disabled={isDeleting}
+          >
+            Delete
+          </Button>
+        </div>
+      </TableRow>
+
+      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
+    </>
   );
 }
 
